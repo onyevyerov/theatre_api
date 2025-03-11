@@ -6,8 +6,8 @@ from theatre_service import settings
 class Play(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
-    actors = models.ManyToManyField("Actor", related_name="plays", blank=True)
-    genres = models.ManyToManyField("Genre", related_name="plays", blank=True)
+    actors = models.ManyToManyField("Actor", related_name="plays")
+    genres = models.ManyToManyField("Genre", related_name="plays")
 
     def __str__(self):
         return self.title
