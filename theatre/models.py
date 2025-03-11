@@ -37,6 +37,10 @@ class TheatreHall(models.Model):
     rows = models.IntegerField()
     seats_in_row = models.IntegerField()
 
+    @property
+    def capacity(self):
+        return self.rows * self.seats_in_row
+
     def __str__(self):
         return self.name
 
