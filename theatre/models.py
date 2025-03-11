@@ -44,3 +44,12 @@ class Performance(models.Model):
         return f"{self.play.title} in {self.theatre_hall.name} at {self.show_time}"
 
 
+class Ticket(models.Model):
+    row = models.IntegerField()
+    seat = models.IntegerField()
+    performance = models.ForeignKey(Performance, on_delete=models.CASCADE, related_name='tickets')
+    reservation = models.ForeignKey("Reservation", on_delete=models.CASCADE, related_name='tickets')
+
+    def __str__(self):
+        return f"{self.row} {self.seat} {self.performance}"
+
