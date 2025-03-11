@@ -22,6 +22,29 @@ class TheatreHallSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "rows", "seats_in_row", "capacity")
 
 
+class PerformanceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Performance
+        fields = ("id", "play", "theatre_hall", "show_time")
+
+
+class PerformanceHallSerializer(serializers.ModelSerializer):
+    play = SlugRelatedField(many=False, read_only=True, slug_field="title")
+
+    class Meta:
+        model = Performance
+        fields = ("id", "play",  "show_time")
+
+
+class TheatreHallDetailSerializer(TheatreHallSerializer):
+    performances = PerformanceHallSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = TheatreHall
+        fields = TheatreHallSerializer.Meta.fields + ("performances",)
+
+
 class PlaySerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -46,12 +69,6 @@ class PlayDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Play
         fields = ("id", "title", "description", "actors", "genres", "performances")
-
-
-class PerformanceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Performance
-        fields = ("id", "play", "theatre_hall", "show_time")
 
 
 class ReservationSerializer(serializers.ModelSerializer):
