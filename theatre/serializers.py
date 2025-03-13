@@ -97,7 +97,7 @@ class PlayDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Play
-        fields = ("id", "title", "description", "actors", "genres", "performances")
+        fields = ("id", "title", "description", "actors", "genres", "image", "performances")
 
 
 class TicketSerializer(serializers.ModelSerializer):
