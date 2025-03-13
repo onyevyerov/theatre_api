@@ -30,9 +30,9 @@ class PerformanceSerializer(serializers.ModelSerializer):
 
 
 class PerformanceListSerializer(serializers.ModelSerializer):
-    play_title = SlugRelatedField(many=False, read_only=True, slug_field="title", source="play")
-    theatre_hall = SlugRelatedField(many=False, read_only=True, slug_field="name")
-    theatre_hall_capacity = SlugRelatedField(many=False, read_only=True, slug_field="capacity", source="theatre_hall")
+    play_title = serializers.CharField(read_only=True, source="play.title")
+    theatre_hall = serializers.CharField(read_only=True, source="theatre_hall.name")
+    theatre_hall_capacity = serializers.IntegerField(read_only=True, source="theatre_hall.capacity")
     tickets_available = serializers.IntegerField(read_only=True)
 
     class Meta:
