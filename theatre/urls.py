@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from theatre.views import ActorViewSet, GenreViewSet, TheatreHallViewSet, PlayViewSet, PerformanceViewSet, \
-    ReservationViewSet, TicketViewSet
+    ReservationViewSet
 
 app_name = "theatre"
 

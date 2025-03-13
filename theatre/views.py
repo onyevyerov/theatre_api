@@ -25,6 +25,12 @@ class TheatreHallViewSet(viewsets.ModelViewSet):
     queryset = TheatreHall.objects.all()
     serializer_class = TheatreHallSerializer
 
+    def get_queryset(self):
+        queryset = self.queryset
+        if self.action == "retrieve":
+            return queryset.prefetch_related("performances__play")
+        return queryset
+
     def get_serializer_class(self):
         if self.action == "retrieve":
             return TheatreHallDetailSerializer
@@ -43,6 +49,12 @@ class PlayViewSet(viewsets.ModelViewSet):
         if self.action == "upload_image":
             return PlayImageSerializer
         return PlaySerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+        if self.action in ("list", "retrieve"):
+            return queryset.prefetch_related("actors", "genres")
+        return queryset
 
     @action(
         methods=["POST"],
@@ -86,7 +98,13 @@ class ReservationViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, Generic
     serializer_class = ReservationSerializer
 
     def get_queryset(self):
-        return Reservation.objects.filter(user=self.request.user)
+        queryset = self.queryset.filter(user=self.request.user)
+
+        if self.action == "list":
+            return queryset.prefetch_related(
+                "tickets__performance__play"
+            )
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -95,8 +113,3 @@ class ReservationViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, Generic
         if self.action == "list":
             return ReservationListSerializer
         return ReservationSerializer
-
-
-class TicketViewSet(viewsets.ModelViewSet):
-    queryset = Ticket.objects.all()
-    serializer_class = TicketSerializer
