@@ -18,6 +18,13 @@ class GenreSerializer(serializers.ModelSerializer):
         fields = ("id", "name")
 
 
+class PlayImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Play
+        fields = ("id", "image")
+
+
 class TheatreHallSerializer(serializers.ModelSerializer):
     class Meta:
         model = TheatreHall
@@ -62,7 +69,7 @@ class PlaySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Play
-        fields = ("id", "title", "description", "actors", "genres")
+        fields = ("id", "title", "description", "actors", "genres", "image")
 
 
 class PlayListSerializer(serializers.ModelSerializer):
@@ -71,7 +78,7 @@ class PlayListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Play
-        fields = ("id", "title", "description", "actors", "genres")
+        fields = ("id", "title", "description", "actors", "genres", "image")
 
 
 class PerformanceDetailSerializer(serializers.ModelSerializer):
@@ -139,3 +146,4 @@ class ReservationListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
         fields = ("id", "tickets", "created_at")
+

@@ -20,7 +20,7 @@ class Play(models.Model):
     description = models.TextField()
     actors = models.ManyToManyField("Actor", related_name="plays")
     genres = models.ManyToManyField("Genre", related_name="plays")
-    image = models.ImageField(upload_to=play_image_file_path)
+    image = models.ImageField(upload_to=play_image_file_path, null=True)
 
     def __str__(self):
         return self.title
