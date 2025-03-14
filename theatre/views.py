@@ -50,10 +50,32 @@ class PlayViewSet(viewsets.ModelViewSet):
             return PlayImageSerializer
         return PlaySerializer
 
+    @staticmethod
+    def _params_to_ints(qs):
+        """Converts a list of string IDs to a list of integers"""
+        return [int(str_id) for str_id in qs.split(",")]
+
     def get_queryset(self):
+        """Retrieve the plays with filters"""
         queryset = self.queryset
+        actors = self.request.query_params.get("actors")
+        genres = self.request.query_params.get("genres")
+        title = self.requestё.query_params.get("date")
+
         if self.action in ("list", "retrieve"):
-            return queryset.prefetch_related("actors", "genres")
+            queryset = queryset.prefetch_related("actors", "genres")
+
+        if actors:
+            actors_ids = self._params_to_ints(actors)
+            queryset = queryset.filter(actor__id__in=actors_ids)
+
+        if genres:
+            genres_ids = self._params_to_ints(genres)
+            queryset = queryset.filter(genres__id__in=genres_ids)
+
+        if title:
+            queryset = queryset.filter(title__icontains=title)
+
         return queryset
 
     @action(
