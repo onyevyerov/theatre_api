@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db.models import F, Count
 from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import action
@@ -60,7 +62,7 @@ class PlayViewSet(viewsets.ModelViewSet):
         queryset = self.queryset
         actors = self.request.query_params.get("actors")
         genres = self.request.query_params.get("genres")
-        title = self.requestё.query_params.get("date")
+        title = self.request.query_params.get("date")
 
         if self.action in ("list", "retrieve"):
             queryset = queryset.prefetch_related("actors", "genres")
@@ -113,6 +115,21 @@ class PerformanceViewSet(viewsets.ModelViewSet):
         if self.action == "retrieve":
             return PerformanceDetailSerializer
         return PerformanceSerializer
+
+    def get_queryset(self):
+        """Retrieve the performances with filters"""
+        queryset = self.queryset
+        play_id_str = self.request.query_params.get("play")
+        date = self.request.query_params.get("date")
+
+        if play_id_str:
+            queryset = queryset.filter(play_id=int(play_id_str))
+
+        if date:
+            date = datetime.strptime(date, "%Y-%m-%d").date()
+            queryset = queryset.filter(show_time=date)
+
+        return queryset
 
 
 class ReservationViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, GenericViewSet):
