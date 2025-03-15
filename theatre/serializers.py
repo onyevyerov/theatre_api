@@ -32,15 +32,12 @@ class TheatreHallSerializer(serializers.ModelSerializer):
 
 
 class PerformanceSerializer(serializers.ModelSerializer):
-    show_time = serializers.DateTimeField(format="%d.%m.%Y %H:%M")
-
     class Meta:
         model = Performance
         fields = ("id", "play", "theatre_hall", "show_time")
 
 
 class PerformanceListSerializer(serializers.ModelSerializer):
-    show_time = serializers.DateTimeField(format="%d.%m.%Y %H:%M")
     play_title = serializers.CharField(read_only=True, source="play.title")
     theatre_hall = serializers.CharField(read_only=True, source="theatre_hall.name")
     theatre_hall_capacity = serializers.IntegerField(read_only=True, source="theatre_hall.capacity")
@@ -52,7 +49,6 @@ class PerformanceListSerializer(serializers.ModelSerializer):
 
 
 class PerformanceHallSerializer(serializers.ModelSerializer):
-    show_time = serializers.DateTimeField(format="%d.%m.%Y %H:%M")
     play = SlugRelatedField(many=False, read_only=True, slug_field="title")
 
     class Meta:
@@ -129,7 +125,6 @@ class TicketListSerializer(serializers.ModelSerializer):
 
 class ReservationSerializer(serializers.ModelSerializer):
     tickets = TicketSerializer(many=True, read_only=False, allow_empty=False)
-    created_at = serializers.DateTimeField(format="%d.%m.%Y %H:%M")
 
     class Meta:
         model = Reservation
@@ -146,7 +141,6 @@ class ReservationSerializer(serializers.ModelSerializer):
 
 class ReservationListSerializer(serializers.ModelSerializer):
     tickets = TicketListSerializer(many=True,read_only=False)
-    created_at = serializers.DateTimeField(format="%d.%m.%Y %H:%M")
 
     class Meta:
         model = Reservation
