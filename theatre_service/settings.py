@@ -152,7 +152,9 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {
        "anon": "100/day",
        "user": "1000/day"
-    }
+    },
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 5
 }
 
 SIMPLE_JWT = {
