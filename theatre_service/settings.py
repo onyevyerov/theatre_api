@@ -144,7 +144,15 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PERMISSION_CLASSES": (
         "theatre.permissions.IsAdminAllOrAuthenticatedReadOnly",
-    )
+    ),
+    "DEFAULT_THROTTLE_CLASSES": [
+       "rest_framework.throttling.AnonRateThrottle",
+       "rest_framework.throttling.UserRateThrottle"
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+       "anon": "100/day",
+       "user": "1000/day"
+    }
 }
 
 SIMPLE_JWT = {
