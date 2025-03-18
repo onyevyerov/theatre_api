@@ -5,10 +5,12 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import viewsets, mixins, status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from theatre.models import Actor, Genre, TheatreHall, Play, Performance, Reservation, Ticket
+from theatre.permissions import IsAdminOrAuthenticatedReadOnly
 from theatre.serializers import ActorSerializer, GenreSerializer, TheatreHallSerializer, PlaySerializer, \
     PerformanceSerializer, ReservationSerializer, TicketSerializer, PlayDetailSerializer, PlayListSerializer, \
     TheatreHallDetailSerializer, PerformanceListSerializer, PerformanceDetailSerializer, ReservationListSerializer, \
@@ -18,16 +20,19 @@ from theatre.serializers import ActorSerializer, GenreSerializer, TheatreHallSer
 class ActorViewSet(viewsets.ModelViewSet):
     queryset = Actor.objects.all()
     serializer_class = ActorSerializer
+    permission_classes = (IsAdminOrAuthenticatedReadOnly,)
 
 
 class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
+    permission_classes = (IsAdminOrAuthenticatedReadOnly,)
 
 
 class TheatreHallViewSet(viewsets.ModelViewSet):
     queryset = TheatreHall.objects.all()
     serializer_class = TheatreHallSerializer
+    permission_classes = (IsAdminOrAuthenticatedReadOnly,)
 
     def get_queryset(self):
         queryset = self.queryset
@@ -44,6 +49,7 @@ class TheatreHallViewSet(viewsets.ModelViewSet):
 class PlayViewSet(viewsets.ModelViewSet):
     queryset = Play.objects.all()
     serializer_class = PlaySerializer
+    permission_classes = (IsAdminOrAuthenticatedReadOnly,)
 
     def get_serializer_class(self):
         if self.action == "retrieve":
@@ -107,7 +113,8 @@ class PlayViewSet(viewsets.ModelViewSet):
     @action(
         methods=["POST"],
         detail=True,
-        url_path="upload-image"
+        url_path="upload-image",
+        permission_classes=[IsAdminUser,]
     )
     def upload_image(self, request, pk=None):
         """Endpoint for uploading image to specific movie"""
@@ -132,6 +139,7 @@ class PerformanceViewSet(viewsets.ModelViewSet):
         )
     )
     serializer_class = PerformanceSerializer
+    permission_classes = (IsAdminOrAuthenticatedReadOnly,)
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -176,6 +184,7 @@ class PerformanceViewSet(viewsets.ModelViewSet):
 class ReservationViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, GenericViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
+    permission_classes = (IsAdminOrAuthenticatedReadOnly,)
 
     def get_queryset(self):
         queryset = self.queryset.filter(user=self.request.user)
