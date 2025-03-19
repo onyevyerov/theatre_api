@@ -7,17 +7,19 @@ import theatre.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('theatre', '0004_alter_ticket_unique_together'),
+        ("theatre", "0004_alter_ticket_unique_together"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='reservation',
-            options={'ordering': ['-created_at']},
+            name="reservation",
+            options={"ordering": ["-created_at"]},
         ),
         migrations.AddField(
-            model_name='play',
-            name='image',
-            field=models.ImageField(null=True, upload_to=theatre.models.play_image_file_path),
+            model_name="play",
+            name="image",
+            field=models.ImageField(
+                null=True, upload_to=theatre.models.play_image_file_path
+            ),
         ),
     ]
