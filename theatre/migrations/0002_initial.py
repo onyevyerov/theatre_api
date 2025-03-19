@@ -11,33 +11,47 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('theatre', '0001_initial'),
+        ("theatre", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='reservation',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="reservation",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AddField(
-            model_name='play',
-            name='actors',
-            field=models.ManyToManyField(blank=True, related_name='plays', to='theatre.actor'),
+            model_name="play",
+            name="actors",
+            field=models.ManyToManyField(
+                blank=True, related_name="plays", to="theatre.actor"
+            ),
         ),
         migrations.AddField(
-            model_name='play',
-            name='genres',
-            field=models.ManyToManyField(blank=True, related_name='plays', to='theatre.genre'),
+            model_name="play",
+            name="genres",
+            field=models.ManyToManyField(
+                blank=True, related_name="plays", to="theatre.genre"
+            ),
         ),
         migrations.AddField(
-            model_name='performance',
-            name='play',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='performances', to='theatre.play'),
+            model_name="performance",
+            name="play",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="performances",
+                to="theatre.play",
+            ),
         ),
         migrations.AddField(
-            model_name='performance',
-            name='theatre_hall',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='performances', to='theatre.theatrehall'),
+            model_name="performance",
+            name="theatre_hall",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="performances",
+                to="theatre.theatrehall",
+            ),
         ),
     ]

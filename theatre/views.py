@@ -11,10 +11,21 @@ from rest_framework.viewsets import GenericViewSet
 
 from theatre.models import Actor, Genre, TheatreHall, Play, Performance, Reservation
 from theatre.permissions import IsAdminAllOrAuthenticatedReadOnly
-from theatre.serializers import ActorSerializer, GenreSerializer, TheatreHallSerializer, PlaySerializer, \
-    PerformanceSerializer, ReservationSerializer, PlayDetailSerializer, PlayListSerializer, \
-    TheatreHallDetailSerializer, PerformanceListSerializer, PerformanceDetailSerializer, ReservationListSerializer, \
-    PlayImageSerializer
+from theatre.serializers import (
+    ActorSerializer,
+    GenreSerializer,
+    TheatreHallSerializer,
+    PlaySerializer,
+    PerformanceSerializer,
+    ReservationSerializer,
+    PlayDetailSerializer,
+    PlayListSerializer,
+    TheatreHallDetailSerializer,
+    PerformanceListSerializer,
+    PerformanceDetailSerializer,
+    ReservationListSerializer,
+    PlayImageSerializer,
+)
 
 
 class ActorViewSet(viewsets.ModelViewSet):
@@ -89,18 +100,18 @@ class PlayViewSet(viewsets.ModelViewSet):
             OpenApiParameter(
                 name="actors",
                 type=OpenApiTypes.INT,
-                description="Filters by actors id (ex. ?actors=1)"
+                description="Filters by actors id (ex. ?actors=1)",
             ),
             OpenApiParameter(
                 name="genres",
                 type=OpenApiTypes.INT,
-                description="Filters by genres id (ex. ?genres=1)"
+                description="Filters by genres id (ex. ?genres=1)",
             ),
             OpenApiParameter(
                 name="title",
                 type=OpenApiTypes.STR,
-                description="Filter by title (ex. ?title=fiction)"
-            )
+                description="Filter by title (ex. ?title=fiction)",
+            ),
         ]
     )
     def list(self, request, *args, **kwargs):
@@ -110,7 +121,9 @@ class PlayViewSet(viewsets.ModelViewSet):
         methods=["POST"],
         detail=True,
         url_path="upload-image",
-        permission_classes=[IsAdminUser,]
+        permission_classes=[
+            IsAdminUser,
+        ],
     )
     def upload_image(self, request, pk=None):
         """Endpoint for uploading image to specific movie"""
@@ -169,14 +182,16 @@ class PerformanceViewSet(viewsets.ModelViewSet):
                 name="date",
                 type=OpenApiTypes.DATE,
                 description="Filter by date (ex. ?date=2019-02-01)",
-            )
+            ),
         ]
     )
     def list(self, request, *args, **kwargs):
         return super().list(self, request, *args, **kwargs)
 
 
-class ReservationViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, GenericViewSet):
+class ReservationViewSet(
+    mixins.ListModelMixin, mixins.CreateModelMixin, GenericViewSet
+):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
 
@@ -184,9 +199,7 @@ class ReservationViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, Generic
         queryset = self.queryset.filter(user=self.request.user)
 
         if self.action == "list":
-            return queryset.prefetch_related(
-                "tickets__performance__play"
-            )
+            return queryset.prefetch_related("tickets__performance__play")
         return queryset
 
     def perform_create(self, serializer):
