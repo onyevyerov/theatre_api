@@ -4,6 +4,7 @@ import uuid
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
+from django.utils.timezone import localtime
 
 from theatre_service import settings
 
@@ -120,7 +121,7 @@ class Ticket(models.Model):
         )
 
     def __str__(self):
-        return f"{str(self.performance)} (seat: {self.seat}, row: {self.row}) "
+        return f"{str(self.performance)} (seat: {self.seat}, row: {self.row})"
 
     class Meta:
         unique_together = ("performance", "row", "seat")
@@ -134,4 +135,4 @@ class Reservation(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return str(self.created_at)
+        return localtime(self.created_at).strftime("%Y-%m-%d %H:%M:%S")
