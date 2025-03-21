@@ -10,7 +10,6 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from theatre.models import Actor, Genre, TheatreHall, Play, Performance, Reservation
-from theatre.permissions import IsAdminAllOrAuthenticatedReadOnly
 from theatre.serializers import (
     ActorSerializer,
     GenreSerializer,
