@@ -130,7 +130,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-MEDIA_ROOT = "/fiels/media"
+MEDIA_ROOT = "/files/media"
 MEDIA_URL = "/media/"
 
 # Static files (CSS, JavaScript, Images)
