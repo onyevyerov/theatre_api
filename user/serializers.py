@@ -51,15 +51,28 @@ class AuthTokenSerializer(serializers.Serializer):
         password = attrs.get("password")
 
         if not email or not password:
-            raise serializers.ValidationError(_('Must include "email" and "password".'), code="authorization")
+            raise serializers.ValidationError(_(
+                'Must include "email" and "password".'),
+                code="authorization"
+            )
 
-        user = authenticate(request=self.context.get("request"), username=email, password=password)
+        user = authenticate(
+            request=self.context.get("request"),
+            username=email,
+            password=password
+        )
 
         if not user:
-            raise serializers.ValidationError(_("Unable to log in with provided credentials."), code="authorization")
+            raise serializers.ValidationError(_(
+                "Unable to log in with provided credentials."),
+                code="authorization"
+            )
 
         if not user.is_active:
-            raise serializers.ValidationError(_("User account is disabled."), code="authorization")
+            raise serializers.ValidationError(_(
+                "User account is disabled."),
+                code="authorization"
+            )
 
         # Generate JWT tokens
         refresh = RefreshToken.for_user(user)
