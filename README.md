@@ -20,7 +20,7 @@ python manage.py runserver
 Docker should be installed
 ```bash
 docker-compose build
-docker-composer up
+docker-compose up
 ```
 ## Getting access
 - create user via /api/user/register/
