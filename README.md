@@ -140,5 +140,6 @@ POSTGRES_DB=theatre
 POSTGRES_USER=theatre
 POSTGRES_PASSWORD=theatre
 PGDATA=/var/lib/postgresql/data
-SECRET_KEY=change-me
+SECRET_KEY=<PUT_YOUR_SECRET_KEY_HERE>
+
 ```
